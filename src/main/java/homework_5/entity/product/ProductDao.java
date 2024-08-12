@@ -1,6 +1,6 @@
 package homework_5.entity.product;
 
-import homework_5.config.DataSourceConfig;
+import homework_5.connection.DataSource;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +12,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 @Service
-public class ProductDao extends DataSourceConfig implements IProductDao {
+public class ProductDao implements IProductDao {
+    private final DataSource dataSource;
+
     private static final String READ_PRODUCT_QUERY = "SELECT products.id, products.account, products.balance, " +
             "products.productTypeId, products.userId, users.username, product_types.name " +
             "FROM products " +
@@ -36,6 +38,10 @@ public class ProductDao extends DataSourceConfig implements IProductDao {
             "LEFT OUTER JOIN product_types " +
             "ON products.productTypeId = product_types.id " +
             "WHERE userId=?;";
+
+    private ProductDao(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
 
     public Product getProductById(@NotNull Long id) {
         try (Connection con = dataSource.getConnection();

@@ -1,6 +1,7 @@
 package homework_5.service;
 
 import homework_5.dto.ProductTypeDto;
+import homework_5.dto.ProductTypeResponseDto;
 import homework_5.entity.productType.IProductTypeDao;
 import homework_5.exceptions.CustomException;
 import jakarta.annotation.PostConstruct;
@@ -33,7 +34,7 @@ public class ProductTypeService {
         }
     }
 
-    public ArrayList<ProductTypeDto> getAllProductTypes() {
-        return types;
+    public ProductTypeResponseDto getAllProductTypes() {
+        return new ProductTypeResponseDto(types.size(), types);
     }
 }

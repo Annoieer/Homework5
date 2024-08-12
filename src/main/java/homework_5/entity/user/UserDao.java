@@ -1,6 +1,6 @@
 package homework_5.entity.user;
 
-import homework_5.config.DataSourceConfig;
+import homework_5.connection.DataSource;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.stereotype.Service;
 
@@ -11,9 +11,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 @Service
-public class UserDao extends DataSourceConfig implements IUserDao {
+public class UserDao implements IUserDao {
+    private final DataSource dataSource;
+
     private static final String READ_USER_QUERY = "SELECT * FROM users WHERE id=?;";
     private static final String READ_ALL_USER_QUERY = "SELECT * FROM users;";
+
+    private UserDao(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
 
     public User getUserById(@NotNull Long id) {
         try (Connection con = dataSource.getConnection();

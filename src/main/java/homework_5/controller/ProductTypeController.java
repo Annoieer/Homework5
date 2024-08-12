@@ -22,8 +22,7 @@ public class ProductTypeController {
 
     @GetMapping(value = "/all")
     public ProductTypeResponseDto getAllProductTypes() {
-        ArrayList<ProductTypeDto> types = productTypeService.getAllProductTypes();
-        return new ProductTypeResponseDto(types.size(), types);
+        return productTypeService.getAllProductTypes();
     }
 
     @GetMapping(value = "/{typeId}")

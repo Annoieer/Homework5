@@ -1,6 +1,6 @@
 package homework_5.entity.productType;
 
-import homework_5.config.DataSourceConfig;
+import homework_5.connection.DataSource;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.stereotype.Service;
 
@@ -11,9 +11,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 @Service
-public class ProductTypeDao extends DataSourceConfig implements IProductTypeDao {
+public class ProductTypeDao implements IProductTypeDao {
+    private final DataSource dataSource;
+
     private static final String READ_PRODUCT_TYPE_QUERY = "SELECT * FROM product_types WHERE id=?;";
     private static final String READ_ALL_PRODUCT_TYPE_QUERY = "SELECT * FROM product_types;";
+
+    private ProductTypeDao(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
 
     public ProductType getProductTypeById(@NotNull Long id) {
         try (Connection con = dataSource.getConnection();

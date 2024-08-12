@@ -23,12 +23,7 @@ public class ProductController {
 
     @GetMapping(value = "/all")
     public ProductResponseDto getAllProducts() {
-        ArrayList<ProductDto> products = productService.getAllUsers();
-        BigDecimal sum = new BigDecimal(0);
-        for (ProductDto product : products) {
-            sum = sum.add(product.getBalance());
-        }
-        return new ProductResponseDto(sum, products);
+        return productService.getAllProducts();
     }
 
     @GetMapping(value = "/{productId}")

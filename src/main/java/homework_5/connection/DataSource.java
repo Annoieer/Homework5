@@ -2,6 +2,7 @@ package homework_5.connection;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.sql.Connection;
@@ -10,14 +11,17 @@ import java.sql.SQLException;
 @Configuration
 public class DataSource {
 
-    private final HikariConfig config = new HikariConfig(
-            "/hikari.properties");
-    private final HikariDataSource ds = new HikariDataSource(config);
+    @Bean
+    public HikariConfig hikariConfig() {
+        return new HikariConfig("/hikari.properties");
+    }
 
-    public DataSource() {
+    @Bean
+    public HikariDataSource hikariDataSource() {
+        return new HikariDataSource(hikariConfig());
     }
 
     public Connection getConnection() throws SQLException {
-        return ds.getConnection();
+        return hikariDataSource().getConnection();
     }
 }
